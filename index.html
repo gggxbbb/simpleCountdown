@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="高考倒计时">
+    <meta name="author" content="gggxbbb">
+    <title>高考倒计时</title>
+
+    <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
+
+    <style>
+        #countdown_grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media screen and (max-width: 600px) {
+            #countdown_grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 600px) {
+            #countdown_grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width: 900px) {
+            #countdown_grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .countdown_item {
+            text-align: center;
+        }
+
+        .countdown_number {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8em;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <nav>
+            <ul>
+                <li><strong>高考倒计时</strong></li>
+            </ul>
+            <ul>
+                <li><a id="last_year">上年</a></li>
+                <li><a id="next_year">下年</a></li>
+            </ul>
+        </nav>
+
+        <hgroup>
+            <h1>高考倒计时</h1>
+            <h2>以新高考第一天（六月七日）凌晨计算</h2>
+        </hgroup>
+
+        <article id="main_countdown" class="countdown_main">
+            <header>
+                距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
+            </header>
+
+            <div id="countdown_grid">
+                <div id="year" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_year">1</span>年</p>
+                </div>
+                <div id="month" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_month">1</span>月</p>
+                </div>
+                <div id="day" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_day">1</span>天</p>
+                </div>
+                <div id="hour" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_hour">1</span>时</p>
+                </div>
+                <div id="minute" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_minute">1</span>分</p>
+                </div>
+                <div id="second" class="countdown_item">
+                    <p><span class="countdown_number" id="countdown_second">1</span>秒</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="countdown_item">
+                <p>总计<span class="countdown_number" id="countdown_day_total"></span>日</p>
+            </div>
+
+        </article>
+
+        <script>
+
+            function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]);
+                return null;
+            }
+
+            function countdown(target_date) {
+                var now = new Date();
+                var diff = target_date - now;
+
+                var passed_target = false;
+
+                if (diff < 0) {
+                    diff = -diff;
+                    passed_target = true;
+                }
+
+                var diff_second = Math.floor(diff / 1000);
+                var diff_minute = Math.floor(diff_second / 60);
+                var diff_hour = Math.floor(diff_minute / 60);
+                var diff_day = Math.floor(diff_hour / 24);
+                var diff_month = Math.floor(diff_day / 30);
+                var diff_year = Math.floor(diff_month / 12);
+
+                var countdown_day_total = (diff_second / 86400).toFixed(2);
+
+                var countdown_year = Math.floor(diff_year);
+                var countdown_month = Math.floor(diff_month % 12);
+                var countdown_day = Math.floor(diff_day % 30);
+                var countdown_hour = Math.floor(diff_hour % 24);
+                var countdown_minute = Math.floor(diff_minute % 60);
+                var countdown_second = Math.floor(diff_second % 60);
+
+                if (passed_target) {
+                    document.getElementById("target_method").innerHTML = "已过";
+                } else {
+                    document.getElementById("target_method").innerHTML = "还有";
+                }
+
+                document.getElementById("countdown_day_total").innerHTML = countdown_day_total;
+
+                document.getElementById("countdown_year").innerHTML = countdown_year;
+                document.getElementById("countdown_month").innerHTML = countdown_month;
+                document.getElementById("countdown_day").innerHTML = countdown_day;
+                document.getElementById("countdown_hour").innerHTML = countdown_hour;
+                document.getElementById("countdown_minute").innerHTML = countdown_minute;
+                document.getElementById("countdown_second").innerHTML = countdown_second;
+            }
+
+
+
+            // 获取目标年份
+            var timenow = new Date();
+            if (timenow.getMonth() > 5 && timenow.getDate() >= 7) {
+                var target_year = timenow.getFullYear() + 1;
+            } else {
+                var target_year = timenow.getFullYear();
+            }
+            var override_target = getQueryString("t") || getQueryString("target");
+            if (override_target) {
+                var target_year = Number(override_target.substr(0, 4));
+            }
+
+            // 处理前后年按钮
+            document.getElementById("last_year").href = "?t=" + (target_year + 1);
+            document.getElementById("next_year").href = "?t=" + (target_year - 1);
+
+            // 显示目标年份
+            document.getElementById("target_year").innerHTML = target_year;
+
+            // 开始倒计时
+            var target_date = new Date(target_year, 5, 7, 0, 0, 0);
+            countdown(target_date);
+            setInterval(function () {
+                countdown(target_date);
+            }, 1000);
+        </script>
+
+        <footer>
+            <p> 源代码:
+                <a href="https://github.com/gggxbbb/simpleCountdown" target="_blank">Github</a>
+                |
+                CSS: 
+                <a href="https://picocss.com/" target="_blank">PICOCSS</a>
+            </p>
+            <p>Powered by Github Pages</p>
+        </footer>
+
+    </main>
+
+</body>
+
+</html>
