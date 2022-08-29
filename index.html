@@ -179,8 +179,8 @@
             }
 
             // 处理前后年按钮
-            document.getElementById("last_year").href = "?t=" + (target_year + 1);
-            document.getElementById("next_year").href = "?t=" + (target_year - 1);
+            document.getElementById("last_year").href = "?t=" + (target_year - 1);
+            document.getElementById("next_year").href = "?t=" + (target_year + 1);
 
             // 显示目标年份
             document.getElementById("target_year").innerHTML = target_year;
