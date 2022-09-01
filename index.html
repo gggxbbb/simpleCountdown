@@ -173,7 +173,7 @@
 
             // 获取目标年份
             var timenow = new Date();
-            if (timenow.getMonth() > 5 && timenow.getDate() >= 7) {
+            if ((timenow.getMonth() = 5 && timenow.getDate() >= 7) || timenow.getMonth() > 5) {
                 var target_year = timenow.getFullYear() + 1;
             } else {
                 var target_year = timenow.getFullYear();
