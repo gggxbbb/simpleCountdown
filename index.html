@@ -101,6 +101,7 @@
     <hgroup>
         <h1>高考倒计时</h1>
         <h2>以新高考第一天（<span id="target_date">六月七日</span>）凌晨计算</h2>
+        <!--特殊年份可能需对 target_date 进行修改-->
     </hgroup>
 
     <article id="main_countdown" class="countdown_main">
@@ -133,6 +134,7 @@
 
     <script>
 
+        // 读取查询字符串
         function getQueryString(name) {
             const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             // noinspection JSDeprecatedSymbols
@@ -143,10 +145,15 @@
             return null;
         }
 
+        /**
+         * 倒计时主函数
+         * @param target_date{Date} 目标日期
+         */
         function countdown(target_date) {
             const now = new Date();
             let diff = target_date - now;
 
+            // 目标是否为过去时间
             let passed_target = false;
 
             if (diff < 0) {
