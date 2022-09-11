@@ -39,10 +39,10 @@
             margin-left: 4px;
             margin-right: 4px;
         }
-        
+
         #day .countdown_number {
-                font-size: 10rem;
-            }
+            font-size: 10rem;
+        }
 
         footer {
             text-align: center;
@@ -54,6 +54,7 @@
             .countdown_number {
                 font-size: 1rem;
             }
+
             #day .countdown_number {
                 font-size: 2rem;
             }
@@ -63,6 +64,7 @@
             .countdown_number {
                 font-size: 2rem;
             }
+
             #day .countdown_number {
                 font-size: 4rem;
             }
@@ -72,6 +74,7 @@
             .countdown_number {
                 font-size: 3rem;
             }
+
             #day .countdown_number {
                 font-size: 6rem;
             }
@@ -83,148 +86,150 @@
 
 <body>
 
-    <main class="container">
+<main class="container">
 
-        <nav>
-            <ul>
-                <li><strong>高考倒计时</strong></li>
-            </ul>
-            <ul>
-                <li><a id="last_year">上年</a></li>
-                <li><a id="next_year">下年</a></li>
-            </ul>
-        </nav>
+    <nav>
+        <ul>
+            <li><strong>高考倒计时</strong></li>
+        </ul>
+        <ul>
+            <li><a id="last_year">上年</a></li>
+            <li><a id="next_year">下年</a></li>
+        </ul>
+    </nav>
 
-        <hgroup>
-            <h1>高考倒计时</h1>
-            <h2>以新高考第一天（<span id="target_date">六月七日</span>）凌晨计算</h2>
-        </hgroup>
+    <hgroup>
+        <h1>高考倒计时</h1>
+        <h2>以新高考第一天（<span id="target_date">六月七日</span>）凌晨计算</h2>
+    </hgroup>
 
-        <article id="main_countdown" class="countdown_main">
-            <header>
-                距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
-            </header>
+    <article id="main_countdown" class="countdown_main">
+        <header>
+            距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
+        </header>
 
-            <div id="countdown_grid">
-                <div id="day" class="countdown_item">
-                    <p><span class="countdown_number" id="countdown_day">1</span>日</p>
-                </div>
-                <div id="hour" class="countdown_item">
-                    <p><span class="countdown_number" id="countdown_hour">1</span>时</p>
-                </div>
-                <div id="minute" class="countdown_item">
-                    <p><span class="countdown_number" id="countdown_minute">1</span>分</p>
-                </div>
-                <div id="second" class="countdown_item">
-                    <p><span class="countdown_number" id="countdown_second">1</span>秒</p>
-                </div>
+        <div id="countdown_grid">
+            <div id="day" class="countdown_item">
+                <p><span class="countdown_number" id="countdown_day">1</span>日</p>
             </div>
-
-            <hr>
-
-            <div class="countdown_item">
-                <p>总计<span class="countdown_number" id="countdown_second_total">1</span>秒</p>
+            <div id="hour" class="countdown_item">
+                <p><span class="countdown_number" id="countdown_hour">1</span>时</p>
             </div>
+            <div id="minute" class="countdown_item">
+                <p><span class="countdown_number" id="countdown_minute">1</span>分</p>
+            </div>
+            <div id="second" class="countdown_item">
+                <p><span class="countdown_number" id="countdown_second">1</span>秒</p>
+            </div>
+        </div>
 
-        </article>
+        <hr>
 
-        <script>
+        <div class="countdown_item">
+            <p>总计<span class="countdown_number" id="countdown_second_total">1</span>秒</p>
+        </div>
 
-            function getQueryString(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return unescape(r[2]);
-                return null;
+    </article>
+
+    <script>
+
+        function getQueryString(name) {
+            const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            const r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        function countdown(target_date) {
+            const now = new Date();
+            let diff = target_date - now;
+
+            let passed_target = false;
+
+            if (diff < 0) {
+                diff = -diff;
+                passed_target = true;
             }
 
-            function countdown(target_date) {
-                var now = new Date();
-                var diff = target_date - now;
+            const diff_second = Math.floor(diff / 1000);
+            const diff_minute = Math.floor(diff_second / 60);
+            const diff_hour = Math.floor(diff_minute / 60);
+            const diff_day = Math.floor(diff_hour / 24);
 
-                var passed_target = false;
+            const countdown_second_total = (diff_second).toFixed(0);
 
-                if (diff < 0) {
-                    diff = -diff;
-                    passed_target = true;
-                }
+            const countdown_day = Math.floor(diff_day);
+            const countdown_hour = Math.floor(diff_hour % 24);
+            const countdown_minute = Math.floor(diff_minute % 60);
+            const countdown_second = Math.floor(diff_second % 60);
 
-                var diff_second = Math.floor(diff / 1000);
-                var diff_minute = Math.floor(diff_second / 60);
-                var diff_hour = Math.floor(diff_minute / 60);
-                var diff_day = Math.floor(diff_hour / 24);
-
-                var countdown_second_total = (diff_second).toFixed(0);
-
-                var countdown_day = Math.floor(diff_day);
-                var countdown_hour = Math.floor(diff_hour % 24);
-                var countdown_minute = Math.floor(diff_minute % 60);
-                var countdown_second = Math.floor(diff_second % 60);
-
-                if (passed_target) {
-                    document.getElementById("target_method").innerHTML = "已过";
-                } else {
-                    document.getElementById("target_method").innerHTML = "还有";
-                }
-
-                document.getElementById("countdown_second_total").innerHTML = countdown_second_total;
-
-                document.getElementById("countdown_day").innerHTML = countdown_day;
-                document.getElementById("countdown_hour").innerHTML = countdown_hour;
-                document.getElementById("countdown_minute").innerHTML = countdown_minute;
-                document.getElementById("countdown_second").innerHTML = countdown_second;
-            }
-
-
-            // 特殊年份
-            var special_years = {
-                2020: [2020, 7, 7, "七月七日"],
-            };
-            var min_year = 2014;
-
-            // 获取目标年份
-            var timenow = new Date();
-            if (timenow.getMonth() == 5 && timenow.getDate() >= 7) {
-                var target_year = timenow.getFullYear() + 1;
-            } else if (timenow.getMonth() > 5) {
-                var target_year = timenow.getFullYear() + 1;
+            if (passed_target) {
+                document.getElementById("target_method").innerHTML = "已过";
             } else {
-                var target_year = timenow.getFullYear();
-            }
-            var override_target = getQueryString("t") || getQueryString("target");
-            if (override_target) {
-                var target_year = Number(override_target.substr(0, 4));
-            }
-            if (target_year < min_year) {
-                target_year = min_year;
+                document.getElementById("target_method").innerHTML = "还有";
             }
 
-            // 处理前后年按钮
-            document.getElementById("last_year").href = "?t=" + (target_year - 1);
-            document.getElementById("next_year").href = "?t=" + (target_year + 1);
+            document.getElementById("countdown_second_total").innerHTML = countdown_second_total;
 
-            // 显示目标年份
-            document.getElementById("target_year").innerHTML = target_year;
+            document.getElementById("countdown_day").innerHTML = countdown_day;
+            document.getElementById("countdown_hour").innerHTML = countdown_hour;
+            document.getElementById("countdown_minute").innerHTML = countdown_minute;
+            document.getElementById("countdown_second").innerHTML = countdown_second;
+        }
 
-            // 开始倒计时
-            if (special_years[target_year]) {
-                var target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
-                document.getElementById("target_date").innerHTML = special_years[target_year][3];
-            } else {
-                var target_date = new Date(target_year, 5, 7);
-            }
+
+        // 特殊年份
+        const special_years = {
+            2020: [2020, 7, 7, "七月七日"],
+        };
+        const min_year = 2014;
+
+        // 获取目标年份
+        const time_now = new Date();
+        let target_year;
+        if (time_now.getMonth() === 5 && time_now.getDate() >= 7) {
+            target_year = time_now.getFullYear() + 1;
+        } else if (time_now.getMonth() > 5) {
+           target_year = time_now.getFullYear() + 1;
+        } else {
+            target_year = time_now.getFullYear();
+        }
+        const override_target = getQueryString("t") || getQueryString("target");
+        if (override_target) {
+            target_year = Number(override_target.substr(0, 4));
+        }
+        if (target_year < min_year) {
+            target_year = min_year;
+        }
+
+        // 处理前后年按钮
+        document.getElementById("last_year").href = "?t=" + (target_year - 1);
+        document.getElementById("next_year").href = "?t=" + (target_year + 1);
+
+        // 显示目标年份
+        document.getElementById("target_year").innerHTML = target_year;
+
+        // 开始倒计时
+        let target_date;
+        if (special_years[target_year]) {
+            target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
+            document.getElementById("target_date").innerHTML = special_years[target_year][3];
+        } else {
+            target_date = new Date(target_year, 5, 7);
+        }
+        countdown(target_date);
+        setInterval(function () {
             countdown(target_date);
-            setInterval(function () {
-                countdown(target_date);
-            }, 1000);
-        </script>
+        }, 1000);
+    </script>
 
-        <footer>
-            <p> 源代码:
-                <a href="https://github.com/gggxbbb/simpleCountdown" target="_blank">Github</a>
-            </p>
-        </footer>
+    <footer>
+        <p> 源代码:
+            <a href="https://github.com/gggxbbb/simpleCountdown" target="_blank">Github</a>
+        </p>
+    </footer>
 
-    </main>
+</main>
 
 </body>
 
