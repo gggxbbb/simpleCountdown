@@ -95,6 +95,7 @@
         <ul>
             <li><a id="last_year">上年</a></li>
             <li><a id="next_year">下年</a></li>
+            <li><a id="near_year">近期</a></li>
         </ul>
     </nav>
 
@@ -148,6 +149,7 @@
         /**
          * 倒计时主函数
          * @param target_date{Date} 目标日期
+         * @return boolean 目标时间是否在将来
          */
         function countdown(target_date) {
             const now = new Date();
@@ -185,6 +187,8 @@
             document.getElementById("countdown_hour").innerHTML = countdown_hour.toString();
             document.getElementById("countdown_minute").innerHTML = countdown_minute.toString();
             document.getElementById("countdown_second").innerHTML = countdown_second.toString();
+
+            return !passed_target
         }
 
 
@@ -194,43 +198,48 @@
         };
         const min_year = 2014;
 
-        // 获取目标年份
+        // 获取目标年份并开始倒计时
+        let force_target = false;
         const time_now = new Date();
-        let target_year;
-        if (time_now.getMonth() === 5 && time_now.getDate() >= 7) {
-            target_year = time_now.getFullYear() + 1;
-        } else if (time_now.getMonth() > 5) {
-           target_year = time_now.getFullYear() + 1;
-        } else {
-            target_year = time_now.getFullYear();
-        }
+        let target_year = time_now.getFullYear();
         const override_target = getQueryString("t") || getQueryString("target");
         if (override_target) {
             target_year = Number(override_target);
+            force_target = true
         }
         if (target_year < min_year) {
             target_year = min_year;
+            force_target = true
         }
+
+        let if_right_target;
+        let target_date;
+        target_year -= 1;
+        do {
+            target_year += 1;
+            if (special_years[target_year]) {
+                target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
+                document.getElementById("target_date").innerHTML = special_years[target_year][3];
+            } else {
+                target_date = new Date(target_year, 5, 7);
+            }
+            if_right_target = countdown(target_date)
+            if (if_right_target) {
+                break
+            }
+        } while (!force_target)
+
+        setInterval(function () {
+            countdown(target_date);
+        }, 1000);
 
         // 处理前后年按钮
         document.getElementById("last_year").href = "?t=" + (target_year - 1);
+        document.getElementById("near_year").href = "?"
         document.getElementById("next_year").href = "?t=" + (target_year + 1);
 
         // 显示目标年份
         document.getElementById("target_year").innerHTML = target_year;
-
-        // 开始倒计时
-        let target_date;
-        if (special_years[target_year]) {
-            target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
-            document.getElementById("target_date").innerHTML = special_years[target_year][3];
-        } else {
-            target_date = new Date(target_year, 5, 7);
-        }
-        countdown(target_date);
-        setInterval(function () {
-            countdown(target_date);
-        }, 1000);
     </script>
 
     <footer>
