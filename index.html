@@ -10,77 +10,10 @@
     <meta name="author" content="gggxbbb">
     <title>高考倒计时</title>
 
-    <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
+    <link rel="stylesheet" href="/static/picocss/css/pico.min.css">
+    <link rel="stylesheet" href="/static/main.css">
 
-    <style>
-        #countdown_grid {
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-areas:
-                "days days days"
-                "hours minutes seconds";
-        }
-
-        #day {
-            grid-area: days;
-            grid-column-start: 1;
-            grid-column-end: 4;
-        }
-
-        .countdown_item {
-            text-align: center;
-        }
-
-        .countdown_number {
-            font-size: 5rem;
-            font-weight: bold;
-            margin-left: 4px;
-            margin-right: 4px;
-        }
-
-        #day .countdown_number {
-            font-size: 10rem;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.8rem;
-        }
-
-
-        @media screen and (max-width: 300px) {
-            .countdown_number {
-                font-size: 1rem;
-            }
-
-            #day .countdown_number {
-                font-size: 2rem;
-            }
-        }
-
-        @media screen and (max-width: 400px) {
-            .countdown_number {
-                font-size: 2rem;
-            }
-
-            #day .countdown_number {
-                font-size: 4rem;
-            }
-        }
-
-        @media screen and (max-width: 500px) {
-            .countdown_number {
-                font-size: 3rem;
-            }
-
-            #day .countdown_number {
-                font-size: 6rem;
-            }
-        }
-
-    </style>
+    <script src="/static/main.js"></script>
 
 </head>
 
@@ -134,63 +67,6 @@
     </article>
 
     <script>
-
-        // 读取查询字符串
-        function getQueryString(name) {
-            const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            // noinspection JSDeprecatedSymbols
-            const r = window.location.search.substr(1).match(reg);
-            if (r != null) { // noinspection JSDeprecatedSymbols
-                return unescape(r[2]);
-            }
-            return null;
-        }
-
-        /**
-         * 倒计时主函数
-         * @param target_date{Date} 目标日期
-         * @return boolean 目标时间是否在将来
-         */
-        function countdown(target_date) {
-            const now = new Date();
-            let diff = target_date - now;
-
-            // 目标是否为过去时间
-            let passed_target = false;
-
-            if (diff < 0) {
-                diff = -diff;
-                passed_target = true;
-            }
-
-            const diff_second = Math.floor(diff / 1000);
-            const diff_minute = Math.floor(diff_second / 60);
-            const diff_hour = Math.floor(diff_minute / 60);
-            const diff_day = Math.floor(diff_hour / 24);
-
-            const countdown_second_total = (diff_second).toFixed(0);
-
-            const countdown_day = Math.floor(diff_day);
-            const countdown_hour = Math.floor(diff_hour % 24);
-            const countdown_minute = Math.floor(diff_minute % 60);
-            const countdown_second = Math.floor(diff_second % 60);
-
-            if (passed_target) {
-                document.getElementById("target_method").innerHTML = "已过";
-            } else {
-                document.getElementById("target_method").innerHTML = "还有";
-            }
-
-            document.getElementById("countdown_second_total").innerHTML = countdown_second_total;
-
-            document.getElementById("countdown_day").innerHTML = countdown_day.toString();
-            document.getElementById("countdown_hour").innerHTML = countdown_hour.toString();
-            document.getElementById("countdown_minute").innerHTML = countdown_minute.toString();
-            document.getElementById("countdown_second").innerHTML = countdown_second.toString();
-
-            return !passed_target
-        }
-
 
         // 特殊年份
         const special_years = {

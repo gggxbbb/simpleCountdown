@@ -1,0 +1,3 @@
+[submodule "static/picocss"]
+	path = static/picocss
+	url = https://github.com/picocss/pico.git
