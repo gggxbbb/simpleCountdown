@@ -43,6 +43,11 @@
             距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
         </header>
 
+        <div class="countdown_item" id="alert_for_last">
+            <p>最后<span id="last_unit">一</span>学期</p>
+            <hr>
+        </div>
+
         <div id="countdown_grid">
             <div id="day" class="countdown_item">
                 <p><span class="countdown_number" id="countdown_day">1</span>日</p>
@@ -116,6 +121,20 @@
 
         // 显示目标年份
         document.getElementById("target_year").innerHTML = target_year;
+
+        // 在最后显示警告
+        const now = new Date();
+        if (!force_target || target_year === now.getFullYear()) {
+            if (now.getFullYear() === target_year) {
+                if (1 <= now.getMonth() <= 2) {
+                    document.getElementById("alert_for_last").style.display = "block";
+                    document.getElementById("last_unit").innerHTML = "一";
+                } else if (2 < now.getMonth() <= 4) {
+                    document.getElementById("alert_for_last").style.display = "block";
+                    document.getElementById("last_unit").innerHTML = "半";
+                }
+            }
+        }
     </script>
 
     <footer>

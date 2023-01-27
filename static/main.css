@@ -29,6 +29,14 @@
     font-size: 10rem;
 }
 
+#alert_for_last p {
+    font-size: 5rem;
+}
+
+#alert_for_last {
+    display: none;
+}
+
 footer {
     text-align: center;
     font-size: 0.8rem;
@@ -43,6 +51,10 @@ footer {
     #day .countdown_number {
         font-size: 2rem;
     }
+
+    #alert_for_last p {
+        font-size: 1rem;
+    }
 }
 
 @media screen and (max-width: 400px) {
@@ -53,6 +65,10 @@ footer {
     #day .countdown_number {
         font-size: 4rem;
     }
+
+    #alert_for_last p {
+        font-size: 2rem;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -62,5 +78,9 @@ footer {
 
     #day .countdown_number {
         font-size: 6rem;
+    }
+
+    #alert_for_last p {
+        font-size: 3rem;
     }
 }
