@@ -15,6 +15,7 @@
 
     <script src="/static/main.js"></script>
     <script async defer data-website-id="a983c8ec-3f01-4da4-84e5-7b5ea03657a3" src="https://ana.evax.top/umami.js"></script>
+    <script src="https://libs.gxb.pub/QueryString/QueryString.js"></script>
 </head>
 
 <body>
@@ -83,7 +84,7 @@
         let force_target = false;
         const time_now = new Date();
         let target_year = time_now.getFullYear();
-        const override_target = getQueryString("t") || getQueryString("target");
+        const override_target = getQueryStringValue("t");
         if (override_target) {
             target_year = Number(override_target);
             force_target = true

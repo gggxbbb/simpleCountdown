@@ -1,14 +1,3 @@
-// 读取查询字符串
-function getQueryString(name) {
-    const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-    // noinspection JSDeprecatedSymbols
-    const r = window.location.search.substr(1).match(reg);
-    if (r != null) { // noinspection JSDeprecatedSymbols
-        return unescape(r[2]);
-    }
-    return null;
-}
-
 /**
  * 倒计时主函数
  * @param target_date{Date} 目标日期
