@@ -79,62 +79,81 @@
             2020: [2020, 7, 7, "七月七日"],
         };
         const min_year = 2014;
+        let timer = setInterval(null, 1000);
 
         // 获取目标年份并开始倒计时
-        let force_target = false;
-        const time_now = new Date();
-        let target_year = time_now.getFullYear();
-        const override_target = getQueryStringValue("t");
-        if (override_target) {
-            target_year = Number(override_target);
-            force_target = true
-        }
-        if (target_year < min_year) {
-            target_year = min_year;
-            force_target = true
-        }
-
-        let if_right_target;
-        let target_date;
-        target_year -= 1;
-        do {
-            target_year += 1;
-            if (special_years[target_year]) {
-                target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
-                document.getElementById("target_date").innerHTML = special_years[target_year][3];
-            } else {
-                target_date = new Date(target_year, 5, 7);
+        function main() {
+            clearInterval(timer);
+            let force_target = false;
+            const time_now = new Date();
+            let target_year = time_now.getFullYear();
+            const override_target = getQueryStringValue("t");
+            if (override_target) {
+                target_year = Number(override_target);
+                force_target = true
             }
-            if_right_target = countdown(target_date)
-            if (if_right_target) {
-                break
+            if (target_year < min_year) {
+                target_year = min_year;
+                force_target = true
             }
-        } while (!force_target)
 
-        setInterval(function () {
-            countdown(target_date);
-        }, 1000);
+            let if_right_target;
+            let target_date;
+            target_year -= 1;
+            do {
+                target_year += 1;
+                if (special_years[target_year]) {
+                    target_date = new Date(special_years[target_year][0], special_years[target_year][1] - 1, special_years[target_year][2]);
+                    document.getElementById("target_date").innerHTML = special_years[target_year][3];
+                } else {
+                    target_date = new Date(target_year, 5, 7);
+                }
+                if_right_target = countdown(target_date)
+                if (if_right_target) {
+                    break
+                }
+            } while (!force_target)
 
-        // 处理前后年按钮
-        document.getElementById("last_year").href = "?t=" + (target_year - 1);
-        document.getElementById("near_year").href = "?"
-        document.getElementById("next_year").href = "?t=" + (target_year + 1);
+            timer = setInterval(function () {
+                countdown(target_date);
+            }, 1000);
 
-        // 显示目标年份
-        document.getElementById("target_year").innerHTML = target_year;
+            // 处理前后年按钮
+            document.getElementById("last_year").onclick = function () {
+                updateQueryString("t", target_year - 1)
+                main()
+            };
+            document.getElementById("near_year").onclick = function () {
+                updateQueryString("t", "")
+                main()
+            };
+            document.getElementById("next_year").onclick = function () {
+                updateQueryString("t", target_year + 1)
+                main()
+            };
 
-        // 在最后显示警告
-        const now = new Date();
-        if (!force_target || target_year === now.getFullYear()) {
-            if (now.getFullYear() === target_year) {
-                if (1 <= now.getMonth() <= 2) {
-                    document.getElementById("alert_for_last").style.display = "block";
-                    document.getElementById("last_unit").innerHTML = "一";
-                } else if (2 < now.getMonth() <= 4) {
-                    document.getElementById("alert_for_last").style.display = "block";
-                    document.getElementById("last_unit").innerHTML = "半";
+            // 显示目标年份
+            document.getElementById("target_year").innerHTML = target_year;
+
+            // 在最后显示警告
+            const now = new Date();
+            document.getElementById("alert_for_last").style.display = "none";
+            if (!force_target || target_year === now.getFullYear()) {
+                if (now.getFullYear() === target_year) {
+                    if (1 <= now.getMonth() <= 2) {
+                        document.getElementById("alert_for_last").style.display = "block";
+                        document.getElementById("last_unit").innerHTML = "一";
+                    } else if (2 < now.getMonth() <= 4) {
+                        document.getElementById("alert_for_last").style.display = "block";
+                        document.getElementById("last_unit").innerHTML = "半";
+                    }
                 }
             }
+            return target_year
+        }
+
+        window.onload = function () {
+            main();
         }
     </script>
 
