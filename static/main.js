@@ -1,4 +1,65 @@
 /**
+ * 获取强制指定时的目标日期
+ * @param min_target Number
+ * @param special_years Object{Number: [Number, Number, Number, String]}
+ * @return Date|null
+ */
+function generate_force_target(min_target, special_years) {
+    const override_target = getQueryStringValue("t");
+    if (override_target) {
+        const target_year = Number(override_target);
+        const fixed_target_year =  fix_force_target_year(target_year, min_target);
+        if (special_years[fixed_target_year]) {
+            return new Date(fixed_target_year, special_years[fixed_target_year][1] - 1, special_years[fixed_target_year][2]);
+        } else {
+            return new Date(fixed_target_year, 5, 7);
+        }
+    } else {
+        return null;
+    }
+}
+
+/**
+ * 修复强制指定时的目标日期，使之大于等于最小目标日期
+ * @param target_year Number
+ * @param min_target Number
+ * @return Number
+ */
+function fix_force_target_year(target_year, min_target) {
+    if (target_year < min_target) {
+        return fix_force_target_year(target_year + 1, min_target);
+    } else {
+        return target_year;
+    }
+}
+
+/**
+ * 根据当前时间生成目标日期
+ * @param special_years
+ * @param given_year
+ * @return {*|Date}
+ */
+function generate_target(special_years, given_year=null) {
+    const now = new Date();
+    if (given_year) {
+        now.setFullYear(given_year);
+    }
+    const now_year = now.getFullYear();
+    let target;
+    if (special_years[now_year]) {
+        target = new Date(now_year, special_years[now_year][1] - 1, special_years[now_year][2]);
+    } else {
+        target = new Date(now_year, 5, 7);
+    }
+    if (target < now) {
+        return generate_target(special_years, now_year + 1);
+    } else {
+        return target;
+    }
+}
+
+
+/**
  * 倒计时主函数
  * @param target_date{Date} 目标日期
  * @return boolean 目标时间是否在将来
