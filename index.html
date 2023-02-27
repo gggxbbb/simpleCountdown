@@ -88,6 +88,8 @@
             const target_date = generate_force_target(min_year, special_years) || generate_target(special_years);
             const target_year = target_date.getFullYear();
 
+            countdown(target_date)
+
             timer = setInterval(function () {
                 countdown(target_date);
             }, 1000);
