@@ -8,14 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="高考倒计时">
     <meta name="author" content="gggxbbb">
-    <title>高考倒计时</title>
+    <title>高考倒计时 - 毫秒</title>
 
     <link rel="stylesheet" href="/static/picocss/css/pico.min.css">
     <link rel="stylesheet" href="/static/main.css">
 
     <script src="/static/main.js"></script>
-    <script async defer data-website-id="a983c8ec-3f01-4da4-84e5-7b5ea03657a3"
-            src="https://ana.evax.top/umami.js"></script>
+    <script async defer data-website-id="a983c8ec-3f01-4da4-84e5-7b5ea03657a3" src="https://ana.evax.top/umami.js"></script>
     <script src="https://libs.gxb.pub/QueryString/QueryString.js"></script>
 </head>
 
@@ -28,7 +27,6 @@
             <li><strong>高考倒计时</strong></li>
         </ul>
         <ul>
-            <li><a href="./ms.html">毫秒倒计时</a></li>
             <li><a id="last_year">上年</a></li>
             <li><a id="next_year">下年</a></li>
             <li><a id="near_year">近期</a></li>
@@ -46,39 +44,46 @@
             距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
         </header>
 
-        <div class="countdown_item" id="alert_for_last">
-            <p>最后<span id="last_unit">一</span>学期</p>
-            <hr>
+        <div class="countdown_item" id="countdown_items">
+            <p id="show_ms"><span class="countdown_number" id="countdown_s">1</span>.<span class="countdown_number" id="countdown_ms">1</span>秒</p>
         </div>
-
-        <div id="countdown_grid">
-            <div id="day" class="countdown_item">
-                <p><span class="countdown_number" id="countdown_day">1</span>日</p>
-            </div>
-            <div id="hour" class="countdown_item">
-                <p><span class="countdown_number" id="countdown_hour">1</span>时</p>
-            </div>
-            <div id="minute" class="countdown_item">
-                <p><span class="countdown_number" id="countdown_minute">1</span>分</p>
-            </div>
-            <div id="second" class="countdown_item">
-                <p><span class="countdown_number" id="countdown_second">1</span>秒</p>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="countdown_item">
-            <p>总计<span class="countdown_number" id="countdown_second_total">1</span>秒</p>
-        </div>
-
 
     </article>
 
+    <dialog id="dialog">
+        <article>
+            <header>
+                提示：
+            </header>
+            <p>
+                横屏体验更佳！
+            </p>
+        </article>
+    </dialog>
+
     <script>
-        window.onload = function () {
-            init(DisplayType.NORMAL);
+
+        const one_height = document.getElementById('countdown_items').offsetHeight;
+
+        function size_dialog() {
+            // get the required width of countdown area
+            let countdown_width = document.getElementById('countdown_items').offsetWidth;
+            let countdown_height = document.getElementById('countdown_items').offsetHeight;
+            let required_width = countdown_width*countdown_height/one_height;
+
+            if (window.innerWidth > window.innerHeight || countdown_width >= required_width) {
+                document.getElementById('dialog').setAttribute('open', false)
+            } else {
+                document.getElementById('dialog').setAttribute('open', true)
+            }
         }
+
+        window.onload = function () {
+            init(DisplayType.MS_ONLY);
+            size_dialog()
+        }
+
+        window.addEventListener('resize', size_dialog)
     </script>
 
     <footer>
@@ -86,7 +91,6 @@
             <a href="https://github.com/gggxbbb/simpleCountdown" target="_blank">Github</a>
         </p>
     </footer>
-
 </main>
 
 </body>

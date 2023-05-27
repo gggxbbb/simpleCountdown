@@ -37,6 +37,10 @@
     display: none;
 }
 
+#countdown_s {
+    font-size: 10rem;
+}
+
 footer {
     text-align: center;
     font-size: 0.8rem;
