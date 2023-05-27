@@ -41,11 +41,12 @@
             let num_s = Math.floor(diff/1000);
             let num_ms = (diff%1000).toString().padStart(3, '0');
             let max_width = document.getElementById('main_countdown').offsetWidth;
-            let width_unit = max_width/(3*num_s.toString().length+num_ms.toString().length+1);
-            let s_font_size = width_unit*3;
+            let width_unit = max_width/(2.7*num_s.toString().length+num_ms.toString().length+2);
+            let s_font_size = width_unit*2.7;
             let ms_font_size = width_unit;
             document.getElementById('countdown_s').style.fontSize = s_font_size.toString()+'px';
             document.getElementById('countdown_ms').style.fontSize = ms_font_size.toString()+'px';
+            document.getElementById('show_ms').style.fontSize = (ms_font_size*2/3).toString()+'px';
         }
 
         window.onload = function () {
