@@ -49,13 +49,17 @@
 
     <script>
 
-        const one_height = document.getElementById('countdown_items').offsetHeight;
-
-        function updateTextSize(diff){
-            let num_s = Math.floor(diff/1000);
-            let num_ms = (diff%1000).toString().padStart(3, '0');
+        function updateTextSize(diff=null){
+            let num_s, num_ms;
+            if (diff === null){
+                num_s = Math.floor(diff/1000).toString();
+                num_ms = (diff%1000).toString().padStart(3, '0');
+            } else {
+                num_s = document.getElementById('countdown_s').innerText;
+                num_ms = document.getElementById('countdown_ms').innerText;
+            }
             let max_width = document.getElementById('main_countdown').offsetWidth;
-            let width_unit = max_width/(2.7*num_s.toString().length+num_ms.toString().length+2);
+            let width_unit = max_width/((2.7*num_s.length).toString().length+num_ms.length+2);
             let s_font_size = width_unit*2.7;
             let ms_font_size = width_unit;
             document.getElementById('countdown_s').style.fontSize = s_font_size.toString()+'px';
