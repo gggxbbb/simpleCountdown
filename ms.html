@@ -20,24 +20,7 @@
 
 <body>
 
-<main class="container">
-
-    <nav>
-        <ul>
-            <li><strong>高考倒计时</strong></li>
-        </ul>
-        <ul>
-            <li><a id="last_year">上年</a></li>
-            <li><a id="next_year">下年</a></li>
-            <li><a id="near_year">近期</a></li>
-        </ul>
-    </nav>
-
-    <hgroup>
-        <h1>高考倒计时</h1>
-        <h2>以新高考第一天（<span id="target_date">六月七日</span>）凌晨计算</h2>
-        <!--特殊年份可能需对 target_date 进行修改-->
-    </hgroup>
+<main class="container-fluid">
 
     <article id="main_countdown" class="countdown_main">
         <header>
@@ -50,47 +33,28 @@
 
     </article>
 
-    <dialog id="dialog">
-        <article>
-            <header>
-                提示：
-            </header>
-            <p>
-                横屏体验更佳！
-            </p>
-        </article>
-    </dialog>
-
     <script>
 
         const one_height = document.getElementById('countdown_items').offsetHeight;
 
-        function size_dialog() {
-            // get the required width of countdown area
-            let countdown_width = document.getElementById('countdown_items').offsetWidth;
-            let countdown_height = document.getElementById('countdown_items').offsetHeight;
-            let required_width = countdown_width*countdown_height/one_height;
-
-            if (window.innerWidth > window.innerHeight || countdown_width >= required_width) {
-                document.getElementById('dialog').setAttribute('open', false)
-            } else {
-                document.getElementById('dialog').setAttribute('open', true)
-            }
+        function updateTextSize(diff){
+            let num_s = Math.floor(diff/1000);
+            let num_ms = (diff%1000).toString().padStart(3, '0');
+            let max_width = document.getElementById('main_countdown').offsetWidth;
+            let width_unit = max_width/(3*num_s.toString().length+num_ms.toString().length+1);
+            let s_font_size = width_unit*3;
+            let ms_font_size = width_unit;
+            document.getElementById('countdown_s').style.fontSize = s_font_size.toString()+'px';
+            document.getElementById('countdown_ms').style.fontSize = ms_font_size.toString()+'px';
         }
 
         window.onload = function () {
-            init(DisplayType.MS_ONLY);
-            size_dialog()
+            init(DisplayType.MS_ONLY, true, updateTextSize);
         }
 
-        window.addEventListener('resize', size_dialog)
+        window.addEventListener('resize', updateTextSize)
     </script>
 
-    <footer>
-        <p> 源代码:
-            <a href="https://github.com/gggxbbb/simpleCountdown" target="_blank">Github</a>
-        </p>
-    </footer>
 </main>
 
 </body>

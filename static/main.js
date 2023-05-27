@@ -21,31 +21,33 @@ function getRefreshInterval(display_type) {
 }
 
 // 获取目标年份并开始倒计时
-function init(display_type = DisplayType.NORMAL) {
+function init(display_type = DisplayType.NORMAL, skip_nav = false, callback = null) {
     clearInterval(timer);
 
     const target_date = generate_force_target(min_year, special_years) || generate_target(special_years);
     const target_year = target_date.getFullYear();
 
-    countdown(target_date, display_type)
+    countdown(target_date, display_type, callback);
 
     timer = setInterval(function () {
-        countdown(target_date, display_type);
+        countdown(target_date, display_type, callback);
     }, getRefreshInterval(display_type));
 
-    // 处理前后年按钮
-    document.getElementById("last_year").onclick = function () {
-        updateQueryString("t", target_year - 1)
-        init(display_type)
-    };
-    document.getElementById("near_year").onclick = function () {
-        updateQueryString("t", "")
-        init(display_type)
-    };
-    document.getElementById("next_year").onclick = function () {
-        updateQueryString("t", target_year + 1)
-        init(display_type)
-    };
+    if (!skip_nav) {
+        // 处理前后年按钮
+        document.getElementById("last_year").onclick = function () {
+            updateQueryString("t", target_year - 1)
+            init(display_type)
+        };
+        document.getElementById("near_year").onclick = function () {
+            updateQueryString("t", "")
+            init(display_type)
+        };
+        document.getElementById("next_year").onclick = function () {
+            updateQueryString("t", target_year + 1)
+            init(display_type)
+        };
+    }
 
     // 显示目标年份
     document.getElementById("target_year").innerHTML = target_year;
@@ -136,7 +138,7 @@ function generate_target(special_years, given_year = null) {
  * @param display_type
  * @return boolean 目标时间是否在将来
  */
-function countdown(target_date, display_type = DisplayType.NORMAL) {
+function countdown(target_date, display_type = DisplayType.NORMAL, callback = null) {
     const now = new Date();
     let diff = target_date - now;
 
@@ -181,6 +183,10 @@ function countdown(target_date, display_type = DisplayType.NORMAL) {
 
         document.getElementById("countdown_s").innerHTML = diff_second.toString();
         document.getElementById("countdown_ms").innerHTML = diff_ms.toString();
+    }
+
+    if (callback) {
+        callback(diff);
     }
 
     return !passed_target
