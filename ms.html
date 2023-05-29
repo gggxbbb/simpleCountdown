@@ -55,17 +55,11 @@
             num_s = Math.floor(diff/1000).toString();
             num_ms = (diff%1000).toString().padStart(3, '0');
 
-            let max_width = document.getElementById('main_countdown').offsetWidth;
-            let max_height = window.innerHeight/2.7;
-            let width_unit = max_width/(2.7*num_s.length+num_ms.length+1);
-            if (width_unit > max_height/2.7){
-                width_unit = max_height/2.7;
-            }
-            let s_font_size = width_unit*2.7;
-            let ms_font_size = width_unit;
-            document.getElementById('countdown_s').style.fontSize = s_font_size.toString()+'px';
-            document.getElementById('countdown_ms').style.fontSize = ms_font_size.toString()+'px';
-            document.getElementById('show_ms').style.fontSize = (ms_font_size*2/3).toString()+'px';
+            let width_unit = 100/(2.7*num_s.length+num_ms.length+1);
+            let width_units = Math.floor(width_unit);
+            document.getElementById('countdown_s').style.fontSize = "min("+width_units*2.7+"vw, 40vh)";
+            document.getElementById('countdown_ms').style.fontSize = "min("+width_units+"vw, 25vh)";
+            document.getElementById('show_ms').style.fontSize = "min("+width_units/2.7+"vw, 12vh)";
         }
 
         window.onload = function () {

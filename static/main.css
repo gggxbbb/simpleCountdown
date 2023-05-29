@@ -1,3 +1,8 @@
+
+p.data {
+    font-size: 2vw;
+}
+
 #countdown_grid {
     width: 100%;
     height: 100%;
@@ -19,18 +24,19 @@
 }
 
 .countdown_number {
-    font-size: 5rem;
+    font-size: min(10vw, 10vh);
+    font-family: Consolas, Monaco, monospace;
     font-weight: bold;
     margin-left: 4px;
     margin-right: 4px;
 }
 
 #day .countdown_number {
-    font-size: 10rem;
+    font-size: min(27vw, 20vh);
 }
 
 #alert_for_last p {
-    font-size: 5rem;
+    font-size: min(10vw, 8vh);
 }
 
 #alert_for_last {
@@ -43,48 +49,4 @@
 
 footer {
     text-align: center;
-    font-size: 0.8rem;
-}
-
-
-@media screen and (max-width: 300px) {
-    .countdown_number {
-        font-size: 1rem;
-    }
-
-    #day .countdown_number {
-        font-size: 2rem;
-    }
-
-    #alert_for_last p {
-        font-size: 1rem;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .countdown_number {
-        font-size: 2rem;
-    }
-
-    #day .countdown_number {
-        font-size: 4rem;
-    }
-
-    #alert_for_last p {
-        font-size: 2rem;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    .countdown_number {
-        font-size: 3rem;
-    }
-
-    #day .countdown_number {
-        font-size: 6rem;
-    }
-
-    #alert_for_last p {
-        font-size: 3rem;
-    }
 }
