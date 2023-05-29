@@ -56,16 +56,36 @@ function init(display_type = DisplayType.NORMAL, skip_nav = false, callback = nu
         // 在最后一学期/半学期显示警告
         const now = new Date();
         document.getElementById("alert_for_last").style.display = "none";
-        if (target_year === now.getFullYear()) {
-            if (now.getFullYear() === target_year) {
-                if (1 <= now.getMonth() <= 2) {
-                    document.getElementById("alert_for_last").style.display = "block";
-                    document.getElementById("last_unit").innerHTML = "一";
-                } else if (2 < now.getMonth() <= 4) {
-                    document.getElementById("alert_for_last").style.display = "block";
-                    document.getElementById("last_unit").innerHTML = "半";
-                }
+        if (target_year.toString() === now.getFullYear().toString()) {
+            let diff2 = target_date - now;
+            let diff_day2 = Math.floor(diff2 / 1000 / 60 / 60 / 24);
+            console.log(diff_day2);
+            if (30 * 2 <= diff_day2 <= 30 * 4) {
+                document.getElementById("alert_for_last").style.display = "block";
+                document.getElementById("last_length").innerHTML = "一";
+                document.getElementById("last_unit").innerHTML = "学期";
             }
+            if (30 <= diff_day2 < 30 * 2) {
+                document.getElementById("alert_for_last").style.display = "block";
+                document.getElementById("last_length").innerHTML = "半";
+                document.getElementById("last_unit").innerHTML = "学期";
+            }
+            if (15 < diff_day2 < 30) {
+                document.getElementById("alert_for_last").style.display = "block";
+                document.getElementById("last_length").innerHTML = "一";
+                document.getElementById("last_unit").innerHTML = "个月";
+            }
+            if (7 < diff_day2 <= 15) {
+                document.getElementById("alert_for_last").style.display = "block";
+                document.getElementById("last_length").innerHTML = "两";
+                document.getElementById("last_unit").innerHTML = "周";
+            }
+            if (diff_day2 <= 7) {
+                document.getElementById("alert_for_last").style.display = "block";
+                document.getElementById("last_length").innerHTML = "一";
+                document.getElementById("last_unit").innerHTML = "周";
+            }
+
         }
     }
     return target_year
