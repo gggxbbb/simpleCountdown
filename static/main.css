@@ -1,6 +1,6 @@
 
 p.data {
-    font-size: 2vw;
+    font-size: 3vw;
 }
 
 #countdown_grid {
@@ -29,6 +29,10 @@ p.data {
     font-weight: bold;
     margin-left: 4px;
     margin-right: 4px;
+}
+
+#show_msg {
+    font-family: Consolas, Monaco, monospace;
 }
 
 #day .countdown_number {

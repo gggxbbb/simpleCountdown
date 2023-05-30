@@ -43,7 +43,7 @@
         </header>
 
         <div class="countdown_item" id="countdown_items">
-            <p id="show_ms"><span class="countdown_number" id="countdown_s">1</span>.<span class="countdown_number" id="countdown_ms">1</span>秒</p>
+            <p id="show_ms"><span class="countdown_number" id="countdown_s">1</span>.<span class="countdown_number" id="countdown_ms">1</span>s</p>
         </div>
 
     </article>
@@ -56,10 +56,11 @@
             num_ms = (diff%1000).toString().padStart(3, '0');
 
             let width_unit = 100/(2.7*num_s.length+num_ms.length+1);
-            let width_units = Math.floor(width_unit);
-            document.getElementById('countdown_s').style.fontSize = "min("+width_units*2.7+"vw, 40vh)";
-            document.getElementById('countdown_ms').style.fontSize = "min("+width_units+"vw, 25vh)";
-            document.getElementById('show_ms').style.fontSize = "min("+width_units/2.7+"vw, 12vh)";
+            let width_s = Math.floor(width_unit*2.7);
+            let width_ms = Math.floor(width_unit);
+            document.getElementById('countdown_s').style.fontSize = "min("+width_s+"vw, 40vh)";
+            document.getElementById('countdown_ms').style.fontSize = "min("+width_ms+"vw, 25vh)";
+            document.getElementById('show_ms').style.fontSize = "min("+width_ms+"vw, 12vh)";
         }
 
         window.onload = function () {
