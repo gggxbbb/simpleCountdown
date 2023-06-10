@@ -26,6 +26,7 @@
             grid-template-columns: 1fr;
             grid-template-rows: 1fr;
         }
+
         article {
             width: 100%;
         }
@@ -38,32 +39,36 @@
 
     <article id="main_countdown" class="countdown_main">
         <header>
-            距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
+            距离<span id="target_year">2222</span>年高考<span id="target_extra">第一天凌晨</span><span
+                id="target_method">还有</span>
         </header>
 
         <div class="countdown_item" id="countdown_items">
-            <p id="show_ms"><span class="countdown_number" id="countdown_s">1</span>.<span class="countdown_number" id="countdown_ms">1</span>s</p>
+            <p id="show_ms"><span class="countdown_number" id="countdown_s">1</span>.<span class="countdown_number"
+                                                                                           id="countdown_ms">1</span>s
+            </p>
         </div>
 
     </article>
 
     <script>
 
-        function updateTextSize(diff){
+        function updateTextSize(diff) {
             let num_s, num_ms;
-            num_s = Math.floor(diff/1000).toString();
-            num_ms = (diff%1000).toString().padStart(3, '0');
+            num_s = Math.floor(diff / 1000).toString();
+            num_ms = (diff % 1000).toString().padStart(3, '0');
 
-            let width_unit = 100/(2.7*num_s.length+num_ms.length+1);
-            let width_s = Math.floor(width_unit*2.7);
+            let width_unit = 100 / (2.7 * num_s.length + num_ms.length + 1);
+            let width_s = Math.floor(width_unit * 2.7);
             let width_ms = Math.floor(width_unit);
-            document.getElementById('countdown_s').style.fontSize = "min("+width_s+"vw, 40vh)";
-            document.getElementById('countdown_ms').style.fontSize = "min("+width_ms+"vw, 25vh)";
-            document.getElementById('show_ms').style.fontSize = "min("+width_ms+"vw, 12vh)";
+            document.getElementById('countdown_s').style.fontSize = "min(" + width_s + "vw, 40vh)";
+            document.getElementById('countdown_ms').style.fontSize = "min(" + width_ms + "vw, 25vh)";
+            document.getElementById('show_ms').style.fontSize = "min(" + width_ms + "vw, 12vh)";
         }
 
         window.onload = function () {
-            init(DisplayType.MS_ONLY, true, updateTextSize);
+            let type = getQueryStringValue("d");
+            init(DisplayType.MS_ONLY, type, true, updateTextSize);
         }
 
     </script>

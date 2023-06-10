@@ -27,7 +27,7 @@
             <li><strong>高考倒计时</strong></li>
         </ul>
         <ul>
-            <li><a href="./ms.html">毫秒倒计时</a></li>
+            <li><a id="to_ms">毫秒倒计时</a></li>
             <li><a id="last_year">上年</a></li>
             <li><a id="next_year">下年</a></li>
             <li><a id="near_year">近期</a></li>
@@ -36,13 +36,14 @@
 
     <hgroup>
         <h1>高考倒计时</h1>
-        <h2>以新高考第一天（<span id="target_date">六月七日</span>）凌晨计算</h2>
+        <h2>以新高考第一天（<span id="target_date">六月七日</span>）<a id="target_type">凌晨</a>计算</h2>
         <!--特殊年份可能需对 target_date 进行修改-->
     </hgroup>
 
     <article id="main_countdown" class="countdown_main">
         <header>
-            距离<span id="target_year">2222</span>年高考<span id="target_method">还有</span>
+            距离<span id="target_year">2222</span>年高考<span
+                id="target_method">还有</span>
         </header>
 
         <div class="countdown_item" id="alert_for_last">
@@ -76,7 +77,24 @@
 
     <script>
         window.onload = function () {
-            init(DisplayType.NORMAL);
+            let type = getQueryStringValue("d")
+            let t = init(DisplayType.NORMAL, type);
+            updateQueryString('t', t)
+        }
+        document.getElementById("target_type").onclick = function () {
+            let type = getQueryStringValue("d")
+            switch (parseInt(type)) {
+                case TargetType.MIDNIGHT:
+                    type = TargetType.CHINESE
+                    updateQueryString('d', type)
+                    break
+                case TargetType.CHINESE:
+                    type = TargetType.MIDNIGHT
+                    updateQueryString('d', type)
+                    break
+            }
+            let t = init(DisplayType.NORMAL, type);
+            updateQueryString('t', t)
         }
     </script>
 

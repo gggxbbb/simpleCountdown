@@ -11,6 +11,11 @@ class DisplayType {
     static MS_ONLY = 1;
 }
 
+class TargetType {
+    static MIDNIGHT = 0;
+    static CHINESE = 1;
+}
+
 function getRefreshInterval(display_type) {
     switch (display_type) {
         case DisplayType.NORMAL:
@@ -21,13 +26,32 @@ function getRefreshInterval(display_type) {
 }
 
 // 获取目标年份并开始倒计时
-function init(display_type = DisplayType.NORMAL, skip_nav = false, callback = null) {
+function init(display_type = DisplayType.NORMAL, target_type = TargetType.MIDNIGHT, skip_nav = false, callback = null) {
     clearInterval(timer);
 
     const target_date = generate_force_target(min_year, special_years) || generate_target(special_years);
     const target_year = target_date.getFullYear();
 
-    countdown(target_date, display_type, callback);
+    switch (parseInt(target_type)) {
+        case TargetType.MIDNIGHT:
+            target_date.setHours(0)
+            if (display_type === DisplayType.NORMAL) {
+                document.getElementById("target_type").innerHTML = "凌晨";
+            } else {
+                document.getElementById("target_extra").innerHTML = "第一天凌晨";
+            }
+            break;
+        case TargetType.CHINESE:
+            target_date.setHours(9)
+            if (display_type === DisplayType.NORMAL) {
+                document.getElementById("target_type").innerHTML = "语文开考（上午九点）";
+            } else {
+                document.getElementById("target_extra").innerHTML = "语文开考（上午九点）";
+            }
+            break;
+    }
+
+    let if_ok = countdown(target_date, display_type, callback);
 
     timer = setInterval(function () {
         countdown(target_date, display_type, callback);
@@ -35,24 +59,33 @@ function init(display_type = DisplayType.NORMAL, skip_nav = false, callback = nu
 
     if (!skip_nav) {
         // 处理前后年按钮
+
+        let data = getQueryString()
+        let base_url = "./ms.html?"
+        let url = base_url + Object.keys(data).map(function (key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+        }).join('&')
+        // console.log(url)
+        document.getElementById("to_ms").setAttribute("href", url)
+
         document.getElementById("last_year").onclick = function () {
             updateQueryString("t", target_year - 1)
-            init(display_type)
+            init(display_type, target_type, skip_nav, callback)
         };
         document.getElementById("near_year").onclick = function () {
             updateQueryString("t", "")
-            init(display_type)
+            init(display_type, target_type, skip_nav, callback)
         };
         document.getElementById("next_year").onclick = function () {
             updateQueryString("t", target_year + 1)
-            init(display_type)
+            init(display_type, target_type, skip_nav, callback)
         };
     }
 
     // 显示目标年份
     document.getElementById("target_year").innerHTML = target_year;
 
-    if (display_type === DisplayType.NORMAL) {
+    if (display_type === DisplayType.NORMAL && if_ok) {
         // 在最后一学期/半学期显示警告
         const now = new Date();
         document.getElementById("alert_for_last").style.display = "none";
@@ -156,6 +189,7 @@ function generate_target(special_years, given_year = null) {
  * 倒计时主函数
  * @param target_date{Date} 目标日期
  * @param display_type
+ * @param callback
  * @return boolean 目标时间是否在将来
  */
 function countdown(target_date, display_type = DisplayType.NORMAL, callback = null) {
