@@ -144,7 +144,7 @@ function generate_target(special_years, given_year = null) {
     } else {
         target = new Date(now_year, 5, 7);
     }
-    if (target < now) {
+    if (target < new Date()) {
         return generate_target(special_years, now_year + 1);
     } else {
         return target;
