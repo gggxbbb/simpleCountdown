@@ -1,4 +1,4 @@
-// 特殊年份
+// 特殊年份 for example:2020年由于covid-19导致的推迟
 const special_years = {
     2020: [2020, 7, 7, "七月七日"],
 };
@@ -86,7 +86,7 @@ function init(display_type = DisplayType.NORMAL, target_type = TargetType.MIDNIG
     document.getElementById("target_year").innerHTML = target_year;
 
     if (display_type === DisplayType.NORMAL && if_ok) {
-        // 在最后一学期/半学期显示警告
+        // 在最后一学期/半学期显示警告，帮助考生认识时间紧迫
         const now = new Date();
         document.getElementById("alert_for_last").style.display = "none";
         if (target_year.toString() === now.getFullYear().toString()) {
