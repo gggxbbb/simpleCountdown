@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/static/main.css">
 
     <script src="/static/main.js"></script>
-    <script async src="https://ana.evax.top/script.js" data-website-id="a983c8ec-3f01-4da4-84e5-7b5ea03657a3"></script>
+    <script async src="https://u.gxb.icu/script.js" data-website-id="13674a11-699a-448d-b7da-873e3c80be87"></script>
     <script src="https://libs.gxb.pub/QueryString/QueryString.js"></script>
 </head>
 
@@ -82,7 +82,7 @@
             updateQueryString('t', t)
         }
         document.getElementById("target_type").onclick = function () {
-            let type = getQueryStringValue("d")
+            let type = getQueryStringValue("d") || TargetType.MIDNIGHT
             switch (parseInt(type)) {
                 case TargetType.MIDNIGHT:
                     type = TargetType.CHINESE
