@@ -12,5 +12,8 @@
     <orderEntry type="library" name="QueryString" level="application" />
     <orderEntry type="library" name="script" level="application" />
     <orderEntry type="library" name="QueryString" level="application" />
+    <orderEntry type="library" name="pico" level="application" />
+    <orderEntry type="library" name="script" level="application" />
+    <orderEntry type="library" name="QueryString" level="application" />
   </component>
 </module>
