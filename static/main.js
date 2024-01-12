@@ -94,39 +94,35 @@ function init(display_type = DisplayType.NORMAL, target_type = TargetType.MIDNIG
             let diff_day2 = Math.floor(diff2 / 1000 / 60 / 60 / 24);
             console.log(diff_day2);
             if (30 * 2 <= diff_day2 && diff_day2 <= 30 * 4) {
-                console.log("最后一学期")
-                document.getElementById("alert_for_last").style.display = "block";
-                document.getElementById("last_length").innerHTML = "一";
-                document.getElementById("last_unit").innerHTML = "学期";
+                setAlert("一", "学期")
             }
             if (30 <= diff_day2 && diff_day2 < 30 * 2) {
-                console.log("最后半学期")
-                document.getElementById("alert_for_last").style.display = "block";
-                document.getElementById("last_length").innerHTML = "半";
-                document.getElementById("last_unit").innerHTML = "学期";
+                setAlert("半", "学期")
             }
             if (15 < diff_day2 && diff_day2 < 30) {
-                console.log("最后一个月")
-                document.getElementById("alert_for_last").style.display = "block";
-                document.getElementById("last_length").innerHTML = "一";
-                document.getElementById("last_unit").innerHTML = "个月";
+                setAlert("一个", "月")
             }
             if (7 < diff_day2 && diff_day2 <= 15) {
-                console.log("最后两周")
-                document.getElementById("alert_for_last").style.display = "block";
-                document.getElementById("last_length").innerHTML = "两";
-                document.getElementById("last_unit").innerHTML = "周";
+                setAlert("两", "周")
             }
             if (diff_day2 <= 7) {
-                console.log("最后一周")
-                document.getElementById("alert_for_last").style.display = "block";
-                document.getElementById("last_length").innerHTML = "一";
-                document.getElementById("last_unit").innerHTML = "周";
+                setAlert("一", "周")
             }
 
         }
     }
     return target_year
+}
+
+/**
+ * 设置警告
+ * @param length
+ * @param unit
+ */
+function setAlert(length,unit) {
+    document.getElementById("alert_for_last").style.display = "block";
+    document.getElementById("last_length").innerHTML = length;
+    document.getElementById("last_unit").innerHTML = unit;
 }
 
 /**
