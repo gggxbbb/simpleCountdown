@@ -85,7 +85,10 @@ function init(display_type = DisplayType.NORMAL, target_type = TargetType.MIDNIG
     // 显示目标年份
     document.getElementById("target_year").innerHTML = target_year;
 
-    if (display_type === DisplayType.NORMAL && if_ok) {
+    const now = new Date();
+    const now_year = now.getFullYear();
+
+    if (display_type === DisplayType.NORMAL && if_ok && target_year === now_year) {
         // 在最后一学期/半学期显示警告，帮助考生认识时间紧迫
         const now = new Date();
         document.getElementById("alert_for_last").style.display = "none";
